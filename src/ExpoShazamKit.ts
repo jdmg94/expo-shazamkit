@@ -5,6 +5,8 @@ export default NativeModulesProxy.ExpoShazamKit || {
     return false;
   },
 
+  matchBuffer() {},
+
   startListening() {},
 
   stopListening() {},
