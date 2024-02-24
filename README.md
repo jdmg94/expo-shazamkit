@@ -134,6 +134,7 @@ const startListening = async () => {
 | Name                 | Description                                                                                               |
 | -------------------- | --------------------------------------------------------------------------------------------------------- |
 | `isAvailable`        | Returns a boolean indicating if the library is available on the current platform                          |
+| `matchBuffer`     | async, takes in a PCM array, and a duration in milis. Returns an array of matches. Usually only contains a single item                                   |
 | `startListening`     | async. Returns an array of matches. Usually only contains a single item                                   |
 | `stopListening`      | Stop the recording                                                                                        |
 | `addToShazamLibrary` | async. Adds the most recently discovered item to the users Shazam library. returns `{ success: boolean }` |

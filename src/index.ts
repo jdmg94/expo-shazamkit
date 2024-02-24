@@ -5,16 +5,23 @@ export function isAvailable(): boolean {
   return ExpoShazamKit.isAvailable();
 }
 
-export async function startListening(): Promise<MatchedItem[]> {
-  return await ExpoShazamKit.startListening();
+export function matchBuffer(
+  buffer: ArrayBuffer,
+  duration: number,
+): Promise<MatchedItem[]> {
+  return ExpoShazamKit.matchBuffer(buffer, duration);
+}
+
+export function startListening(): Promise<MatchedItem[]> {
+  return ExpoShazamKit.startListening();
 }
 
 export function stopListening() {
   ExpoShazamKit.stopListening();
 }
 
-export async function addToShazamLibrary(): Promise<{ success: boolean }> {
-  return await ExpoShazamKit.addToShazamLibrary();
+export function addToShazamLibrary(): Promise<{ success: boolean }> {
+  return ExpoShazamKit.addToShazamLibrary();
 }
 
 export { MatchedItem };

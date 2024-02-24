@@ -24,6 +24,32 @@ public class ShazamKitModule: Module, ResultHandler {
     Function("isAvailable") {
       return true
     }
+
+    AsyncFunction("matchBuffer") { (promise: Promise, buffer: Array, audioTime: Double) in
+      if pendingPromise != nil {
+        promise.reject(SearchInProgressException())
+        return
+      }
+      
+      pendingPromise = promise
+      
+      do {
+         let audioBuffer = AVAudioPCMBuffer(pcmFormat: mixerNode.outputFormat(forBus: 0), frameCapacity: UInt32(buffer.count))!
+          audioBuffer.frameLength = audioBuffer.frameCapacity
+  
+          buffer.withUnsafeBufferPointer { ptr in
+            audioBuffer.copy(from: ptr)
+          }
+
+          let audioTimeStamp = AVAudioTime(sampleTime: 0, atRate: mixerNode.outputFormat(forBus: 0).sampleRate)
+          let audioTime = audioTimeStamp + AVAudioFramePosition(audioTime * mixerNode.outputFormat(forBus: 0).sampleRate)
+
+          session.matchStreamingBuffer(audioBuffer, at: audioTime)
+      } catch {
+        promise.reject(error)
+        pendingPromise = nil
+      }
+    }
     
     AsyncFunction("startListening") { (promise: Promise) in
       if pendingPromise != nil {
